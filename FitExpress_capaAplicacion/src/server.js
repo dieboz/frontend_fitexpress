@@ -16,7 +16,9 @@ app.use(cors({
   origin: [
     'http://localhost:4200',  // Desarrollo local
     'http://localhost',        // Docker frontend en puerto 80
-    'http://localhost:80'      // Docker frontend alternativo
+    'http://localhost:80',     // Docker frontend alternativo
+    'https://fitexpress-backend-wl7e.onrender.com',  // Backend
+    'https://fitexpress-frontend.onrender.com'  // ← Agrega la URL de tu frontend (cámbiala por tu URL real)
   ],
   credentials: true
 }));
