@@ -14,11 +14,11 @@ const mongoose = require('mongoose');
 // Configurar CORS para desarrollo y producción
 app.use(cors({
   origin: [
-    'http://localhost:4200',  // Desarrollo local
+    'http://localhost:4200',  // Desarrollo local Angular
     'http://localhost',        // Docker frontend en puerto 80
     'http://localhost:80',     // Docker frontend alternativo
     'https://fitexpress-backend-wl7e.onrender.com',  // Backend
-    'https://fitexpress-frontend.onrender.com'  // ← Agrega la URL de tu frontend (cámbiala por tu URL real)
+    'https://fitexpress-frontend.onrender.com'  // Frontend deployado
   ],
   credentials: true
 }));
