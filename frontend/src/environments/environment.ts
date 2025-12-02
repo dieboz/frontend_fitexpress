@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:4000/api'
+  apiUrl: 'https://fitexpress-backend-wl7e.onrender.com/api'  // ← Cambiar de localhost a Render
 };
