@@ -21,8 +21,10 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular/build:application",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "outputPath": "dist/frontend",
+            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -32,13 +34,19 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "_redirects",
+                "input": "public",
+                "output": "/"
               }
             ],
             "styles": [
-              "src/custom-theme.scss",
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.css",
+              "src/custom-theme.scss"
             ],
-            "fileReplacements": []
+            "scripts": []
           },
           "configurations": {
             "production": {
