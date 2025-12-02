@@ -1,0 +1,202 @@
+<div class="company-detail-container">
+  <button class="btn-back" (click)="goBack()">
+    ← Volver a Empresas
+  </button>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando empresa...</p>
+  </div>
+
+  <div *ngIf="company && !loading" class="company-detail-card">
+    <!-- Header de la empresa -->
+    <div class="company-header">
+      <div class="company-logo">
+        <img *ngIf="company.logo" [src]="company.logo" [alt]="company.name" (error)="company.logo = ''" />
+        <div *ngIf="!company.logo" class="logo-placeholder">
+          {{ company.name?.charAt(0).toUpperCase() }}
+        </div>
+      </div>
+
+      <div class="company-info">
+        <h1>{{ company.name }}</h1>
+        <p class="company-description">{{ company.description }}</p>
+        
+        <div class="company-meta">
+          <span class="meta-item">
+            📧 {{ company.email }}
+          </span>
+          <span class="meta-item" *ngIf="company.location">
+            📍 {{ company.location }}
+          </span>
+          <span class="meta-item">
+            👥 {{ company.followers?.length || 0 }} seguidores
+          </span>
+        </div>
+
+        <div class="company-actions">
+          <button 
+            *ngIf="!isMyCompany()" 
+            class="btn-follow"
+            [class.following]="isFollowing()"
+            (click)="toggleFollow()"
+          >
+            {{ isFollowing() ? '✓ Siguiendo' : '+ Seguir' }}
+          </button>
+
+          <span *ngIf="isMyCompany()" class="badge-owner">
+            👑 Tu Empresa
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="company-content">
+      <div class="owner-section">
+        <h3>Propietario</h3>
+        <div class="owner-card">
+          <div class="owner-avatar">
+            {{ company.owner_id?.name?.charAt(0).toUpperCase() || 'U' }}
+          </div>
+          <div>
+            <p class="owner-name">{{ company.owner_id?.name || 'Usuario' }}</p>
+            <p class="owner-email">{{ company.owner_id?.email || 'Sin email' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SECCIÓN DE PRODUCTOS (SOLO PARA DUEÑO) ===== -->
+      <div *ngIf="isMyCompany()" class="products-section">
+        <div class="products-header">
+          <h2>🛍️ Productos de tu Empresa</h2>
+          <button class="btn-add-product" (click)="toggleProductForm()">
+            {{ showProductForm ? 'Cancelar' : (editingProduct ? 'Editar Producto' : '+ Agregar Producto') }}
+          </button>
+        </div>
+
+        <!-- Mensajes -->
+        <div *ngIf="productErrorMessage" class="error-message">
+          {{ productErrorMessage }}
+        </div>
+
+        <div *ngIf="productSuccessMessage" class="success-message">
+          {{ productSuccessMessage }}
+        </div>
+
+        <!-- Formulario de crear/editar producto -->
+        <div *ngIf="showProductForm" class="product-form">
+          <h3>{{ editingProduct ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
+          
+          <div class="form-group">
+            <label>Nombre del Producto *</label>
+            <input type="text" [(ngModel)]="newProduct.name" placeholder="Ej: Proteína Whey 2kg" />
+          </div>
+
+          <div class="form-group">
+            <label>Descripción</label>
+            <textarea [(ngModel)]="newProduct.description" rows="3" placeholder="Descripción del producto"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Precio (S/.) *</label>
+              <input type="number" [(ngModel)]="newProduct.price" min="0" step="0.01" placeholder="0.00" />
+            </div>
+
+            <div class="form-group">
+              <label>Stock</label>
+              <input type="number" [(ngModel)]="newProduct.stock" min="0" placeholder="0" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Categoría</label>
+            <select [(ngModel)]="newProduct.category">
+              <option value="suplementos">Suplementos</option>
+              <option value="ropa">Ropa Deportiva</option>
+              <option value="equipamiento">Equipamiento</option>
+              <option value="accesorios">Accesorios</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Imagen (URL)</label>
+            <input type="url" [(ngModel)]="newProduct.image" placeholder="https://ejemplo.com/producto.jpg" />
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-submit" (click)="createProduct()">
+              {{ editingProduct ? 'Actualizar' : 'Crear Producto' }}
+            </button>
+            <button class="btn-cancel" (click)="toggleProductForm()">Cancelar</button>
+          </div>
+        </div>
+
+        <!-- Lista de productos -->
+        <div *ngIf="products.length > 0" class="products-grid">
+          <div *ngFor="let product of products" class="product-card">
+            <div class="product-actions-owner">
+              <button class="btn-edit-product" (click)="editProduct(product)" title="Editar producto">
+                ✏️
+              </button>
+              <button class="btn-delete-product" (click)="deleteProduct(product._id)" title="Eliminar producto">
+                🗑️
+              </button>
+            </div>
+
+            <div class="product-image">
+              <img *ngIf="product.image" [src]="product.image" [alt]="product.name" (error)="product.image = ''" />
+              <div *ngIf="!product.image" class="product-placeholder">
+                📦
+              </div>
+            </div>
+
+            <div class="product-info">
+              <h4>{{ product.name }}</h4>
+              <p class="product-category">{{ product.category }}</p>
+              <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+              
+              <div class="product-details">
+                <span class="product-price">S/. {{ product.price.toFixed(2) }}</span>
+                <span class="product-stock">Stock: {{ product.stock }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="products.length === 0 && !showProductForm" class="no-products">
+          <p>Aún no has agregado productos. ¡Comienza ahora!</p>
+        </div>
+      </div>
+
+      <!-- ===== VISTA DE PRODUCTOS PARA VISITANTES ===== -->
+      <div *ngIf="!isMyCompany() && products.length > 0" class="products-section">
+        <h2>🛍️ Productos Disponibles</h2>
+        
+        <div class="products-grid">
+          <div *ngFor="let product of products" class="product-card">
+            <div class="product-image">
+              <img *ngIf="product.image" [src]="product.image" [alt]="product.name" (error)="product.image = ''" />
+              <div *ngIf="!product.image" class="product-placeholder">
+                📦
+              </div>
+            </div>
+
+            <div class="product-info">
+              <h4>{{ product.name }}</h4>
+              <p class="product-category">{{ product.category }}</p>
+              <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+              
+              <div class="product-details">
+                <span class="product-price">S/. {{ product.price.toFixed(2) }}</span>
+                <span class="product-stock" [class.out-of-stock]="product.stock === 0">
+                  {{ product.stock > 0 ? 'Disponible' : 'Agotado' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

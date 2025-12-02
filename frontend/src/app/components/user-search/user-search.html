@@ -1,0 +1,58 @@
+<div class="search-container">
+  <div class="search-card">
+    <h1>Buscar Usuarios</h1>
+
+    <div class="search-box">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="searchUsers()"
+        placeholder="Buscar por @nickname o nombre..."
+        class="search-input"
+      />
+      <button 
+        *ngIf="searchQuery" 
+        class="btn-clear" 
+        (click)="clearSearch()"
+      >
+        ×
+      </button>
+    </div>
+
+    <div *ngIf="searching" class="loading">
+      <p>Buscando...</p>
+    </div>
+
+    <div class="search-results">
+      <div 
+        *ngFor="let user of searchResults" 
+        class="user-result"
+      >
+        <div class="user-avatar">
+          <img 
+            *ngIf="user.profile_picture" 
+            [src]="user.profile_picture" 
+            alt="Profile"
+            (error)="user.profile_picture = ''"
+          />
+          <div *ngIf="!user.profile_picture" class="avatar-placeholder">
+            {{ getUserInitial(user) }}
+          </div>
+        </div>
+        <div class="user-info">
+          <h3>{{ user.name }}</h3>
+          <p *ngIf="user.nickname" class="nickname">@{{ user.nickname }}</p>
+          <p *ngIf="user.bio" class="bio">{{ user.bio }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="noResults && !searching" class="no-results">
+        <p>No se encontraron usuarios con "{{ searchQuery }}"</p>
+      </div>
+
+      <div *ngIf="!searchQuery && searchResults.length === 0 && !searching" class="empty-state">
+        <p>Busca usuarios por su nickname o nombre</p>
+      </div>
+    </div>
+  </div>
+</div>

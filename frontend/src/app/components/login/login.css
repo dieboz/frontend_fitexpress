@@ -1,0 +1,136 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  width: 100%;
+  border-top: 4px solid #F7C524;
+}
+
+.login-card h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1A1A1A;
+  font-size: 28px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #F7C524;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: #F7C524;
+  color: #1A1A1A;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-login:hover {
+  background: #D4A817;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(247, 197, 36, 0.4);
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c33;
+  font-size: 14px;
+}
+
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.register-link p {
+  color: #666;
+}
+
+.register-link a {
+  color: #F7C524;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link a:hover {
+  color: #D4A817;
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 15px;
+    min-height: calc(100vh - 64px);
+  }
+
+  .login-card {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+
+  .login-card h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+
+  .form-group input {
+    font-size: 16px; /* Prevenir zoom en iOS */
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 25px 15px;
+  }
+
+  .login-card h1 {
+    font-size: 22px;
+  }
+
+  .register-link p {
+    font-size: 14px;
+  }
+}

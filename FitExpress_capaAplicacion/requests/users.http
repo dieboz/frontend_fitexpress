@@ -1,0 +1,92 @@
+### Variables
+@baseUrl = http://localhost:4000
+@userId = 
+@nickname = 
+
+### Crear un nuevo usuario con contraseña hasheada
+POST {{baseUrl}}/api/users
+Content-Type: application/json
+
+{
+  "name": "Diego Requena",
+  "nickname": "diebozzz",
+  "email": "diegomnk@hotmail.com",
+  "password": "drequena123",
+  "bio": "Apasionado del fitness y la tecnología"
+}
+
+### Login de usuario (NUEVO)
+POST {{baseUrl}}/api/users/login
+Content-Type: application/json
+
+{
+  "email": "diegomnk@hotmail.com",
+  "password": "contrasenia123"
+}
+
+### Cambiar contraseña (ahora con hash)
+PATCH {{baseUrl}}/api/users/{{userId}}/password
+Content-Type: application/json
+
+{
+  "currentPassword": "contrasenia123",
+  "newPassword": "nuevaContrasenia456"
+}
+
+### Buscar usuarios por nickname o nombre
+GET {{baseUrl}}/api/users/search/diego
+
+### Obtener perfil público por nickname
+GET {{baseUrl}}/api/users/profile/{{nickname}}
+
+### Obtener todos los usuarios
+GET {{baseUrl}}/api/users
+
+### Actualizar perfil (incluyendo nickname)
+PATCH {{baseUrl}}/api/users/{{userId}}
+Content-Type: application/json
+
+{
+  "nickname": "nuevo_nickname",
+  "bio": "Nueva biografía",
+  "profile_picture": "https://example.com/photo.jpg"
+}
+
+### Obtener un usuario específico
+GET {{baseUrl}}/api/users/{{userId}}
+
+### Cambiar contraseña de un usuario
+PATCH {{baseUrl}}/api/users/{{userId}}/password
+Content-Type: application/json
+
+{
+  "currentPassword": "password123",
+  "newPassword": "newPassword456"
+}
+
+### Seguir a un usuario
+POST {{baseUrl}}/api/users/{{userId}}/follow
+Content-Type: application/json
+
+{
+  "follower_id": "USER_ID_DEL_SEGUIDOR"
+}
+
+### Dejar de seguir a un usuario
+DELETE {{baseUrl}}/api/users/{{userId}}/unfollow
+Content-Type: application/json
+
+{
+  "follower_id": "USER_ID_DEL_SEGUIDOR"
+}
+
+### Eliminar un usuario
+DELETE {{baseUrl}}/api/users/{{userId}}
+
+### Actualizar SOLO la foto de perfil
+PATCH http://localhost:4000/api/users/692d467c4b5b500e0d6383bb
+Content-Type: application/json
+
+{
+  "profile_picture": "https://cdn.pfps.gg/pfps/5051-misa-death-note-display-picture.png"
+}

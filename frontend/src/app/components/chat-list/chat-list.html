@@ -1,0 +1,105 @@
+<div class="chat-container">
+  <!-- Lista de usuarios -->
+  <div class="users-sidebar">
+    <h2>Chats</h2>
+    <div class="users-list">
+      <div 
+        *ngFor="let user of users" 
+        class="user-item"
+        [class.active]="selectedUser?._id === user._id"
+        (click)="selectUser(user)"
+      >
+        <div class="user-avatar">
+          <img 
+            *ngIf="user.profile_picture" 
+            [src]="user.profile_picture" 
+            alt="Profile"
+            (error)="user.profile_picture = ''"
+          />
+          <div *ngIf="!user.profile_picture" class="avatar-placeholder">
+            {{ user.name.charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        <div class="user-info">
+          <h3>{{ user.name }}</h3>
+          <p *ngIf="user.nickname" class="user-nickname">@{{ user.nickname }}</p>
+          <p *ngIf="!user.nickname" class="user-email">{{ user.email }}</p>
+        </div>
+      </div>
+
+      <p *ngIf="users.length === 0" class="no-users">
+        No hay usuarios disponibles para chatear
+      </p>
+    </div>
+  </div>
+
+  <!-- Área de chat -->
+  <div class="chat-area">
+    <!-- Header del chat -->
+    <div class="chat-header" *ngIf="selectedUser">
+      <div class="user-avatar">
+        <img 
+          *ngIf="selectedUser.profile_picture" 
+          [src]="selectedUser.profile_picture" 
+          alt="Profile"
+          (error)="selectedUser.profile_picture = ''"
+        />
+        <div *ngIf="!selectedUser.profile_picture" class="avatar-placeholder">
+          {{ selectedUser.name.charAt(0).toUpperCase() }}
+        </div>
+      </div>
+      <div class="user-info">
+        <h3>{{ selectedUser.name }}</h3>
+        <p *ngIf="selectedUser.nickname" class="user-nickname">@{{ selectedUser.nickname }}</p>
+        <p *ngIf="!selectedUser.nickname" class="user-email">{{ selectedUser.email }}</p>
+      </div>
+    </div>
+
+    <!-- Seleccionar usuario -->
+    <div class="no-chat-selected" *ngIf="!selectedUser">
+      <h2>Selecciona un usuario para comenzar a chatear</h2>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="messages-container" *ngIf="selectedUser">
+      <div 
+        *ngFor="let message of messages" 
+        class="message"
+        [class.my-message]="isMyMessage(message)"
+        [class.other-message]="!isMyMessage(message)"
+      >
+        <div class="message-content">
+          <p>{{ message.content }}</p>
+          <span class="message-time">
+            {{ message.createdAt | date:'short' }}
+          </span>
+        </div>
+        <button 
+          *ngIf="isMyMessage(message)" 
+          class="delete-btn"
+          (click)="deleteMessage(message._id)"
+          title="Eliminar mensaje"
+        >
+          ×
+        </button>
+      </div>
+
+      <p *ngIf="messages.length === 0" class="no-messages">
+        No hay mensajes aún. ¡Envía el primero!
+      </p>
+    </div>
+
+    <!-- Input para enviar mensaje -->
+    <div class="message-input" *ngIf="selectedUser">
+      <input 
+        type="text" 
+        [(ngModel)]="newMessage" 
+        (keyup.enter)="sendMessage()"
+        placeholder="Escribe un mensaje..."
+      />
+      <button (click)="sendMessage()" [disabled]="!newMessage.trim()">
+        Enviar
+      </button>
+    </div>
+  </div>
+</div>

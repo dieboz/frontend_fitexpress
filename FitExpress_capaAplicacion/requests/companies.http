@@ -1,0 +1,54 @@
+### Variables
+@baseUrl = http://localhost:4000
+@companyId = 692737338e36cafb6a4f73e7
+@userId = 6927356e8e36cafb6a4f73e1
+
+### Crear una nueva empresa
+POST {{baseUrl}}/api/companies
+Content-Type: application/json
+
+{
+  "name": "GymTick",
+  "description": "Gimnasio privado",
+  "email": "info@gymTick.com",
+  "logo": "https://example.com/logo.png",
+  "location": "Tacna, Perú",
+  "owner_id": "{{userId}}"
+}
+
+### Obtener todas las empresas
+GET {{baseUrl}}/api/companies/all
+
+### Obtener una empresa específica
+GET {{baseUrl}}/api/companies/{{companyId}}
+
+### Actualizar una empresa
+PATCH {{baseUrl}}/api/companies/{{companyId}}
+Content-Type: application/json
+
+{
+  "name": "GymTick",
+  "description": "Gimnasio privado",
+  "email": "info@gymTick.com",
+  "logo": "https://example.com/logo.png",
+  "location": "Trujillo, Perú"
+}
+
+### Seguir una empresa
+POST {{baseUrl}}/api/companies/{{companyId}}/follow
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}"
+}
+
+### Dejar de seguir una empresa
+DELETE {{baseUrl}}/api/companies/{{companyId}}/follow
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}"
+}
+
+### Eliminar una empresa
+DELETE {{baseUrl}}/api/companies/{{companyId}}

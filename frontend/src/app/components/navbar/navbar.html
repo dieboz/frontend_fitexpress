@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <span class="brand">FitExpress</span>
+
+  <span class="spacer"></span>
+
+  <nav class="nav-links">
+    <button mat-button routerLink="/feed">Feed</button>
+    <button mat-button routerLink="/create">Crear Post</button>
+    <button mat-button routerLink="/search">Buscar</button>
+    <button mat-button routerLink="/companies">Empresas</button> 
+    <button mat-button routerLink="/chats">Chats</button>
+    
+    <div class="user-profile-pic" routerLink="/profile">
+      <img 
+        *ngIf="currentUser?.profile_picture" 
+        [src]="currentUser.profile_picture" 
+        alt="Profile"
+        class="profile-img"
+        (error)="currentUser.profile_picture = ''"
+      />
+      <div 
+        *ngIf="!currentUser?.profile_picture" 
+        class="profile-placeholder"
+      >
+        {{ getUserInitial() }}
+      </div>
+    </div>
+  </nav>
+</mat-toolbar>

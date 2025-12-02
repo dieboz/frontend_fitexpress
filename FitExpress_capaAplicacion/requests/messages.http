@@ -1,0 +1,38 @@
+### Variables
+@baseUrl = http://localhost:4000
+@chatId = 69273dd58e36cafb6a4f73fe
+@messageId = 69273e2c8e36cafb6a4f7400
+@senderId = 692735878e36cafb6a4f73e3
+@receiverId = 6927356e8e36cafb6a4f73e1
+
+### Enviar un nuevo mensaje
+POST {{baseUrl}}/api/messages
+Content-Type: application/json
+
+{
+  "chat_id": "692d372c55c3a70d3bc2e9a1",
+  "sender_id": "692d368355c3a70d3bc2e994",
+  "receiver_id": "692d36a055c3a70d3bc2e99a",
+  "content": "Hola, ¿cómo estás?"
+}
+
+### Obtener todos los mensajes de un chat
+GET {{baseUrl}}/api/messages/chat/{{chatId}}
+
+### Obtener mensajes no leídos de un usuario
+GET {{baseUrl}}/api/messages/unread/{{receiverId}}
+
+### Marcar mensaje como leído
+PATCH {{baseUrl}}/api/messages/{{messageId}}/read
+
+### Marcar todos los mensajes de un chat como leídos
+PATCH {{baseUrl}}/api/messages/chat/{{chatId}}/read-all
+Content-Type: application/json
+
+{
+  "userId": "{{receiverId}}"
+}
+
+### Eliminar un mensaje
+DELETE {{baseUrl}}/api/messages/{{messageId}}
+

@@ -1,0 +1,58 @@
+services:
+  fit_express_db:
+    container_name: fit_express_db
+    image: mongo
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongodb_data:/data/db  # ✅ Persistencia configurada
+    networks:
+      - fit-express-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  fit-express:
+    container_name: fit-express
+    restart: always
+    build:
+      context: ./FitExpress_capaAplicacion
+      dockerfile: Dockerfile
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./FitExpress_capaAplicacion:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - fit-express-network
+    depends_on:
+      fit_express_db:
+        condition: service_healthy
+    environment:
+      - MONGODB_URI=mongodb://fit_express_db:27017/fit_express
+      - PORT=3000
+
+  frontend:
+    container_name: fit-express-frontend
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - fit-express-network
+    depends_on:
+      - fit-express
+
+networks:
+  fit-express-network:
+    driver: bridge
+
+# ✅ Volumen persistente
+volumes:
+  mongodb_data:
+    driver: local

@@ -1,0 +1,60 @@
+### Variables
+@baseUrl = http://localhost:4000
+@postId = 6927397f8e36cafb6a4f73ee
+@userId = 692735878e36cafb6a4f73e3
+
+### Crear un nuevo post
+POST {{baseUrl}}/api/posts
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}",
+  "content": "Este es mi primer post en FitExpress!",
+  "image": "https://example.com/image.jpg"
+}
+
+### Obtener todos los posts
+GET {{baseUrl}}/api/posts/all
+
+### Obtener posts de un usuario específico
+GET {{baseUrl}}/api/posts/user/{{userId}}
+
+### Obtener un post específico
+GET {{baseUrl}}/api/posts/{{postId}}
+
+### Actualizar un post
+PATCH {{baseUrl}}/api/posts/{{postId}}
+Content-Type: application/json
+
+{
+  "content": "Contenido actualizado del post",
+  "image": "https://example.com/new-image.jpg"
+}
+
+### Dar like a un post
+POST {{baseUrl}}/api/posts/{{postId}}/like
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}"
+}
+
+### Quitar like de un post
+DELETE {{baseUrl}}/api/posts/{{postId}}/like
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}"
+}
+
+### Agregar comentario a un post
+POST {{baseUrl}}/api/posts/{{postId}}/comment
+Content-Type: application/json
+
+{
+  "user_id": "{{userId}}",
+  "text": "¡Excelente post!"
+}
+
+### Eliminar un post
+DELETE {{baseUrl}}/api/posts/{{postId}}

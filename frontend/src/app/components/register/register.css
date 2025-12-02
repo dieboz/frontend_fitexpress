@@ -1,0 +1,185 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
+  padding: 20px;
+}
+
+.register-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+  border-top: 4px solid #F7C524;
+}
+
+.register-card h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #1A1A1A;
+  font-size: 28px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #F7C524;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: #777;
+  font-size: 13px;
+}
+
+.btn-register {
+  width: 100%;
+  padding: 14px;
+  background: #F7C524;
+  color: #1A1A1A;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-register:hover {
+  background: #D4A817;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(247, 197, 36, 0.4);
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c33;
+  font-size: 14px;
+}
+
+.success-message {
+  background: #efe;
+  color: #3c3;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #3c3;
+  font-size: 14px;
+}
+
+.login-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-link p {
+  color: #666;
+}
+
+.login-link a {
+  color: #F7C524;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  color: #D4A817;
+  text-decoration: underline;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 15px;
+    min-height: calc(100vh - 64px);
+  }
+
+  .register-card {
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+
+  .register-card h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group input {
+    font-size: 16px; /* Prevenir zoom en iOS */
+    padding: 11px;
+  }
+
+  .form-group small {
+    font-size: 12px;
+  }
+
+  .btn-register {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .error-message,
+  .success-message {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .login-link p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: 25px 15px;
+  }
+
+  .register-card h1 {
+    font-size: 22px;
+  }
+
+  .form-group input {
+    padding: 10px;
+  }
+
+  .btn-register {
+    padding: 11px;
+  }
+
+  .login-link p {
+    font-size: 14px;
+  }
+}

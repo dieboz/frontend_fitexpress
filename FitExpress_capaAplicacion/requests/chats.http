@@ -1,0 +1,31 @@
+### Variables
+@baseUrl = http://localhost:4000
+@chatId = 69273b3c8e36cafb6a4f73f5
+@userId = 6927356e8e36cafb6a4f73e1
+@otherUserId = 692735878e36cafb6a4f73e3
+
+### Crear un nuevo chat
+POST {{baseUrl}}/api/chats
+Content-Type: application/json
+
+{
+  "participants": ["692d368355c3a70d3bc2e994", "692d36a055c3a70d3bc2e99a"]
+}
+
+### Obtener todos los chats de un usuario
+GET {{baseUrl}}/api/chats/user/{{userId}}
+
+### Obtener un chat específico
+GET {{baseUrl}}/api/chats/{{chatId}}
+
+### Actualizar último mensaje del chat
+PATCH {{baseUrl}}/api/chats/{{chatId}}/last-message
+Content-Type: application/json
+
+{
+  "sender_id": "{{userId}}",
+  "content": "Hola, ¿cómo estás?"
+}
+
+### Eliminar un chat
+DELETE {{baseUrl}}/api/chats/{{chatId}}

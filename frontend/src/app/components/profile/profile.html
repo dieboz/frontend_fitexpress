@@ -1,0 +1,202 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h1>Mi Perfil</h1>
+
+    <!-- Sección de foto de perfil y datos -->
+    <div class="user-info">
+      <h2>Información Personal</h2>
+
+      <!-- Vista de perfil -->
+      <div *ngIf="!editingProfile">
+        <!-- Foto de perfil -->
+        <div class="profile-picture-section">
+          <div class="profile-picture-container">
+            <img 
+              *ngIf="currentUser?.profile_picture" 
+              [src]="currentUser.profile_picture" 
+              alt="Foto de perfil"
+              class="profile-picture"
+              (error)="currentUser.profile_picture = ''"
+            />
+            <div 
+              *ngIf="!currentUser?.profile_picture" 
+              class="profile-picture-placeholder"
+            >
+              {{ currentUser?.name?.charAt(0).toUpperCase() || 'U' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Nombre:</label>
+          <p>{{ currentUser?.name }}</p>
+        </div>
+
+        <div class="info-item">
+          <label>Nickname:</label>
+          <p>@{{ currentUser?.nickname || 'Sin nickname' }}</p>
+        </div>
+
+        <div class="info-item">
+          <label>Correo electrónico:</label>
+          <p>{{ currentUser?.email }}</p>
+        </div>
+
+        <div class="info-item">
+          <label>Bio:</label>
+          <p>{{ currentUser?.bio || 'Sin descripción' }}</p>
+        </div>
+
+        <button class="btn-edit-profile" (click)="toggleEditProfile()">
+          Editar Perfil
+        </button>
+      </div>
+
+      <!-- Formulario de edición -->
+      <div *ngIf="editingProfile">
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <div *ngIf="successMessage" class="success-message">
+          {{ successMessage }}
+        </div>
+
+        <form (ngSubmit)="updateProfile()">
+          <!-- Foto de perfil -->
+          <div class="form-group">
+            <label for="profilePicture">URL de foto de perfil</label>
+            <input
+              type="url"
+              id="profilePicture"
+              [(ngModel)]="profilePicture"
+              name="profilePicture"
+              placeholder="https://ejemplo.com/mi-foto.jpg"
+            />
+            <small>Pega aquí la URL de tu foto de perfil</small>
+          </div>
+
+          <!-- Preview de imagen -->
+          <div *ngIf="profilePicture" class="image-preview">
+            <img 
+              [src]="profilePicture" 
+              alt="Preview" 
+              (error)="profilePicture=''"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="userName">Nombre</label>
+            <input
+              type="text"
+              id="userName"
+              [(ngModel)]="userName"
+              name="userName"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="nickname">Nickname</label>
+            <input
+              type="text"
+              id="nickname"
+              [(ngModel)]="nickname"
+              name="nickname"
+              placeholder="tu_nickname"
+            />
+            <small>Solo letras, números y guiones bajos</small>
+          </div>
+
+          <div class="form-group">
+            <label for="userEmail">Correo electrónico</label>
+            <input
+              type="email"
+              id="userEmail"
+              [(ngModel)]="userEmail"
+              name="userEmail"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Biografía</label>
+            <textarea
+              id="bio"
+              [(ngModel)]="bio"
+              name="bio"
+              rows="4"
+              placeholder="Cuéntanos sobre ti..."
+            ></textarea>
+            <small>Máximo 200 caracteres</small>
+          </div>
+
+          <div class="button-group">
+            <button type="submit" class="btn-save">Guardar Cambios</button>
+            <button type="button" class="btn-cancel" (click)="toggleEditProfile()">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Cambiar contraseña -->
+    <div class="change-password-section">
+      <h2>Cambiar Contraseña</h2>
+
+      <div *ngIf="errorMessage && !editingProfile" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage && !editingProfile" class="success-message">
+        {{ successMessage }}
+      </div>
+
+      <form (ngSubmit)="changePassword()">
+        <div class="form-group">
+          <label for="currentPassword">Contraseña actual</label>
+          <input
+            type="password"
+            id="currentPassword"
+            [(ngModel)]="currentPassword"
+            name="currentPassword"
+            placeholder="Ingresa tu contraseña actual"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="newPassword">Nueva contraseña</label>
+          <input
+            type="password"
+            id="newPassword"
+            [(ngModel)]="newPassword"
+            name="newPassword"
+            placeholder="Mínimo 6 caracteres"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirmar nueva contraseña</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            placeholder="Repite la nueva contraseña"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-change-password">Cambiar Contraseña</button>
+      </form>
+    </div>
+
+    <!-- Cerrar sesión -->
+    <div class="logout-section">
+      <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </div>
+</div>

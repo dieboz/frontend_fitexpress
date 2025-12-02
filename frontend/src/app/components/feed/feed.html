@@ -1,0 +1,124 @@
+<div class="feed-container">
+  <div class="feed-header">
+    <h1>Feed</h1>
+    <button class="btn-create-post" routerLink="/create">
+      + Crear Post
+    </button>
+  </div>
+
+  <!-- Lista de posts -->
+  <div class="posts-list">
+    <div *ngFor="let post of posts" class="post-card">
+      <!-- Header del post -->
+      <div class="post-header">
+        <div class="author-info">
+          <div class="author-avatar">
+            <img 
+              *ngIf="getAuthorProfilePicture(post)" 
+              [src]="getAuthorProfilePicture(post)" 
+              alt="Profile"
+              (error)="post.user_id.profile_picture = null"
+            />
+            <div *ngIf="!getAuthorProfilePicture(post)" class="avatar-initials">
+              {{ getAuthorName(post).charAt(0).toUpperCase() }}
+            </div>
+          </div>
+          <div class="author-details">
+            <h3>{{ getAuthorName(post) }}</h3>
+            <p *ngIf="getAuthorNickname(post)" class="nickname">@{{ getAuthorNickname(post) }}</p>
+            <p class="post-date">{{ post.created_at | date:'medium' }}</p>
+          </div>
+        </div>
+        
+        <button 
+          *ngIf="isMyPost(post)" 
+          class="delete-post-btn"
+          (click)="deletePost(post._id)"
+          title="Eliminar post"
+        >
+          🗑️
+        </button>
+      </div>
+
+      <!-- Contenido del post -->
+      <div class="post-content">
+        <p>{{ post.content }}</p>
+        <img *ngIf="post.image" [src]="post.image" alt="Post image" class="post-image" />
+      </div>
+
+      <!-- Acciones del post (likes, comentarios) -->
+      <div class="post-actions">
+        <button 
+          class="action-btn like-btn"
+          [class.liked]="hasLiked(post)"
+          (click)="toggleLike(post)"
+        >
+          <span class="icon">{{ hasLiked(post) ? '❤️' : '🤍' }}</span>
+          <span>{{ post.likes?.length || 0 }}</span>
+        </button>
+
+        <span class="comments-count">
+          💬 {{ post.comments?.length || 0 }} comentarios
+        </span>
+      </div>
+
+      <!-- Sección de comentarios -->
+      <div class="comments-section" *ngIf="post.comments && post.comments.length > 0">
+        <div *ngFor="let comment of post.comments" class="comment">
+          <div class="comment-avatar">
+            <img 
+              *ngIf="comment.user_id?.profile_picture" 
+              [src]="comment.user_id.profile_picture" 
+              alt="Profile"
+              (error)="comment.user_id.profile_picture = null"
+            />
+            <div *ngIf="!comment.user_id?.profile_picture" class="avatar-initials-small">
+              {{ comment.user_id?.name?.charAt(0).toUpperCase() || 'U' }}
+            </div>
+          </div>
+          <div class="comment-content">
+            <strong>{{ comment.user_id?.name || 'Usuario' }}</strong>
+            <span *ngIf="comment.user_id?.nickname" class="comment-nickname">@{{ comment.user_id.nickname }}</span>
+            <p>{{ comment.text }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input para agregar comentario -->
+      <div class="add-comment">
+        <div class="current-user-avatar">
+          <img 
+            *ngIf="currentUser?.profile_picture" 
+            [src]="currentUser.profile_picture" 
+            alt="Profile"
+            (error)="currentUser.profile_picture = null"
+          />
+          <div *ngIf="!currentUser?.profile_picture" class="avatar-initials-small">
+            {{ currentUser?.name?.charAt(0).toUpperCase() || 'U' }}
+          </div>
+        </div>
+        <input 
+          type="text" 
+          [(ngModel)]="commentTexts[post._id]"
+          (keyup.enter)="addComment(post)"
+          placeholder="Escribe un comentario..."
+        />
+        <button 
+          (click)="addComment(post)"
+          [disabled]="!commentTexts[post._id]?.trim()"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay posts -->
+    <div *ngIf="posts.length === 0" class="no-posts">
+      <h2>No hay posts aún</h2>
+      <p>¡Sé el primero en crear uno!</p>
+      <button class="btn-create-post" routerLink="/create">
+        Crear Post
+      </button>
+    </div>
+  </div>
+</div>

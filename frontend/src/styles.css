@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #f5f5f5;
+}
+
+/* Variables de color globales */
+:root {
+  --primary-color: #F7C524;
+  --primary-dark: #D4A817;
+  --secondary-color: #1A1A1A;
+  --text-dark: #333;
+  --text-light: #777;
+  --background-light: #f8f9fa;
+  --border-color: #e0e0e0;
+}
+
+/* Responsive global */
+* {
+  box-sizing: border-box;
+}
+
+/* Prevenir scroll horizontal en móviles */
+body {
+  overflow-x: hidden;
+}
+
+/* Mejorar legibilidad en móviles */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-size: 24px !important;
+  }
+  
+  h2 {
+    font-size: 20px !important;
+  }
+  
+  h3 {
+    font-size: 16px !important;
+  }
+}
