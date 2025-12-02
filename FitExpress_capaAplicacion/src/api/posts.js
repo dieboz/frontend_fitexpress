@@ -30,10 +30,10 @@ router.post('/', async (req, res) => {
 router.get('/all', async (req, res) => {
     try {
         const posts = await db.post.find()
-            .populate('user_id', 'name email')
+            .populate('user_id', 'name nickname email profile_picture') // ← AGREGAR nickname y profile_picture
             .populate('likes', 'name')
-            .populate('comments.user_id', 'name')
-            .sort({ created_at: -1 });
+            .populate('comments.user_id', 'name nickname')
+            .sort({ createdAt: -1 }); // ← CAMBIAR de created_at a createdAt
         
         res.status(200).json(posts);
     } catch (error) {
